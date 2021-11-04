@@ -31,6 +31,10 @@ const ProductsMainScreen = () => {
   );
 }
 
+ProductsMainScreen.navigationOptions = {
+  headerTitle: 'All Products'
+};
+
 const styles = StyleSheet.create({
   
 });
