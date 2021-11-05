@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux'
 import ListItem from '../../components/ListItem'
 import defaultStyles from '../../constants/default-styles'
 
-const ProductsMainScreen = () => {
+const ProductsMainScreen = props => {
   const availableProducts = useSelector(state => state.products.availableProducts);
 
   if(!availableProducts || availableProducts.length === 0) {
@@ -21,7 +21,18 @@ const ProductsMainScreen = () => {
   }
 
   const renderProduct = itemData => {
-    return <ListItem listData={itemData.item} />
+    return <ListItem
+      listData={itemData.item}
+      showDetails={() => {
+        props.navigation.navigate({
+          routeName: 'Details', 
+          params: {
+            prodId: itemData.item.id,
+            title: itemData.item.title,
+          }
+        })
+      }}
+    />
   }
 
   return (

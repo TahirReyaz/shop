@@ -1,37 +1,41 @@
 import React from 'react'
 import { 
   View, 
-  TouchableOpacity, 
-  Platform, 
   ImageBackground, 
-  TouchableNativeFeedback, 
   Text, 
   StyleSheet, 
+  Button
 } from 'react-native'
 import defaultStyles from '../constants/default-styles';
+import Colors from '../constants/Colors';
 
 const ListItem = props => {
-  let TouchableComp = TouchableOpacity;
-  if(Platform.OS === 'android' && Platform.Version >= 21) {
-    TouchableComp = TouchableNativeFeedback;
-  }
 
   return (
     <View style={styles.container}>
-      <TouchableComp>
-        <View style={styles.gridItem}>
-          <View style={styles.header}>
-            <ImageBackground source={{uri: props.listData.imgUrl}} style={styles.bgImg}>
-              <View style={styles.titleContainer}>
-                <Text style={styles.title} numberOfLines={1}>{props.listData.title}</Text>
-              </View>
-            </ImageBackground>
+      <View style={styles.gridItem}>
+        {/* Image */}
+        <View style={styles.header}>
+          <ImageBackground source={{uri: props.listData.imgUrl}} style={styles.bgImg}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title} numberOfLines={1}>{props.listData.title}</Text>
+            </View>
+          </ImageBackground>
+        </View>
+        {/* Price */}
+        <View style={styles.details}>
+          <Text style={{color: '#888'}}>${props.listData.price.toFixed(2)}</Text>
+        </View>
+        {/* Buttons */}
+        <View style={styles.buttonContainer}>
+          <View style={styles.button}>
+            <Button title="Details" color={Colors.primary} onPress={props.showDetails} />
           </View>
-          <View style={styles.details}>
-            <Text style={defaultStyles.openSans}>{props.listData.price}</Text>
+          <View style={styles.button}>
+            <Button title="Add To Cart" color={Colors.primary} onPress={props.addToCart} />
           </View>
         </View>
-      </TouchableComp>
+      </View>
     </View>
   );
 }
@@ -70,14 +74,20 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end'
   },
   header: {
-    height: '85%'
+    height: '60%'
   },
   details: {
     height: '15%',
     paddingHorizontal: 10,
-    justifyContent: 'space-around',
     alignItems: 'center',
-    flexDirection: 'row'
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  button: {
+    width: '30%'
   }
 });
 
