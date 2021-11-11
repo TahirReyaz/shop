@@ -1,5 +1,3 @@
-import cart from "../store/reducers/cart";
-
 class CartItem {
   constructor(title, price, qty, sum) {
     this.title = title;
@@ -9,4 +7,4 @@ class CartItem {
   }
 }
 
-export default cartItem;
+export default CartItem;

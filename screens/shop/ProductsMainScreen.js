@@ -3,11 +3,14 @@ import {
   View, 
   FlatList, 
   StyleSheet,
-  Text
+  Text,
+  Platform
 } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as cartActions from '../../store/actions/cart'
-import ListItem from '../../components/ListItem'
+import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import HeaderButton from '../../components/UI/CustomHeaderButton'
+import ListItem from '../../components/shop/ListItem'
 import defaultStyles from '../../constants/default-styles'
 
 const ProductsMainScreen = props => {
@@ -34,7 +37,7 @@ const ProductsMainScreen = props => {
           }
         })
       }}
-      addTocart={() => {
+      addToCartHandler={() => {
         dispatch(cartActions.addToCart(itemData.item))
       }}
     />
@@ -47,8 +50,21 @@ const ProductsMainScreen = props => {
   );
 }
 
-ProductsMainScreen.navigationOptions = {
-  headerTitle: 'All Products'
+ProductsMainScreen.navigationOptions = navData => {
+  return {
+    headerTitle: 'All Products',
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item 
+          title='Cart' 
+          iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'} 
+          onPress={() => navData.navigation.navigate({
+            routeName: 'Cart'
+          })}
+        />
+      </HeaderButtons>
+    )
+  }
 };
 
 const styles = StyleSheet.create({

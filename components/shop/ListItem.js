@@ -6,9 +6,7 @@ import {
   StyleSheet, 
   Button
 } from 'react-native';
-import { useDispatch } from 'react-redux';
-import defaultStyles from '../constants/default-styles';
-import Colors from '../constants/Colors';
+import Colors from '../../constants/Colors';
 
 const ListItem = props => {
 
@@ -33,7 +31,7 @@ const ListItem = props => {
             <Button title="Details" color={Colors.primary} onPress={props.showDetails} />
           </View>
           <View style={styles.button}>
-            <Button title="Add To Cart" color={Colors.primary} onPress={props.addToCart} />
+            <Button title="Add To Cart" color={Colors.primary} onPress={props.addToCartHandler} />
           </View>
         </View>
       </View>

@@ -14,7 +14,7 @@ export default (state = initialState, action) => {
       const price = addedProduct.price;
       const title = addedProduct.title;
 
-      if(item[addedProduct.id]) { //Item already exists in the cart
+      if(state.items[addedProduct.id]) { //Item already exists in the cart
         const updatedCartItem = new CartItem(
           title,
           price, 
