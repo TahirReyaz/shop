@@ -5,12 +5,14 @@ import {
   StyleSheet,
   Text
 } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import * as cartActions from '../../store/actions/cart'
 import ListItem from '../../components/ListItem'
 import defaultStyles from '../../constants/default-styles'
 
 const ProductsMainScreen = props => {
   const availableProducts = useSelector(state => state.products.availableProducts);
+  const dispatch = useDispatch();
 
   if(!availableProducts || availableProducts.length === 0) {
     return (
@@ -31,6 +33,9 @@ const ProductsMainScreen = props => {
             title: itemData.item.title,
           }
         })
+      }}
+      addTocart={() => {
+        dispatch(cartActions.addToCart(itemData.item))
       }}
     />
   }

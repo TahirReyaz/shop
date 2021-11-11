@@ -5,7 +5,8 @@ import {
   Text, 
   StyleSheet, 
   Button
-} from 'react-native'
+} from 'react-native';
+import { useDispatch } from 'react-redux';
 import defaultStyles from '../constants/default-styles';
 import Colors from '../constants/Colors';
 
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
   title: {
     color: 'white',
     textAlign: 'center',
-    // fontFamily: 'open-sans-bold',
+    fontFamily: 'open-sans-bold',
     fontSize: 18
   },
   bgImg: {
@@ -80,6 +81,7 @@ const styles = StyleSheet.create({
     height: '15%',
     paddingHorizontal: 10,
     alignItems: 'center',
+    fontFamily: 'open-sans'
   },
   buttonContainer: {
     flexDirection: 'row',

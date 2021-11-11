@@ -83,11 +83,12 @@ const styles = StyleSheet.create({
   price: {
     color: '#888',
     margin: 10,
-    fontSize: 18
+    fontSize: 18,
+    fontFamily: 'open-sans-bold',
   },
   desc: {
     marginHorizontal: 10,
-    // fontFamily: 'open-sans',
+    fontFamily: 'open-sans',
     fontSize: 18
   },
   button: {
