@@ -6,14 +6,28 @@ import {
   Text,
 } from 'react-native'
 import { useSelector } from 'react-redux'
-// import * as cartActions from '../../store/actions/cart'
-// import defaultStyles from '../../constants/default-styles'
+import * as cartActions from '../../store/actions/cart'
+import CartItem from '../../components/shop/CartItem'
+import defaultStyles from '../../constants/default-styles'
 
 const ProductsMainScreen = props => {
   const totalAmount = useSelector(state=> state.cart.totalAmount);
-  const cartItems = useSelector(state => state.cart.items);
-  // const dispatch = useDispatch();
+  // convert the items object into array of objects
+  const cartItems = useSelector(state => { 
+    const cartItemArray = [];
+    for (const key in state.cart.items) {
+      cartItemArray.push({
+        id: key,
+        title: state.cart.items[key].title,
+        price: state.cart.items[key].price,
+        qty: state.cart.items[key].qty,
+        sum: state.cart.items[key].sum
+      })
+    }
+    return cartItemArray;
+  });
 
+  // Return fall back text if there are no items in the cart
   if(!cartItems || cartItems.length === 0 || totalAmount === 0) {
     return (
       <View style={defaultStyles.screen}>
@@ -22,27 +36,28 @@ const ProductsMainScreen = props => {
     )
   }
 
-  // const renderProduct = itemData => {
-  //   return <ListItem
-  //     listData={itemData.item}
-  //     showDetails={() => {
-  //       props.navigation.navigate({
-  //         routeName: 'Details', 
-  //         params: {
-  //           prodId: itemData.item.id,
-  //           title: itemData.item.title,
-  //         }
-  //       })
-  //     }}
-  //     addTocart={() => {
-  //       dispatch(cartActions.addToCart(itemData.item))
-  //     }}
-  //   />
-  // }
+  const renderProduct = itemData => {
+    return <CartItem
+      listData={itemData.item}
+      showDetails={() => {
+        props.navigation.navigate({
+          routeName: 'Details', 
+          params: {
+            prodId: itemData.item.id,
+            title: itemData.item.title,
+          }
+        })
+      }}
+      removeFromCartHandler={() => {
+        dispatch(cartActions.addToCart(itemData.item))
+      }}
+    />
+  }
 
   return (
     <View>
       <Text>Total Amount: {totalAmount.toFixed(2)}</Text>
+      <FlatList data={cartItems} renderItem={renderProduct} />
     </View>
   );
 }

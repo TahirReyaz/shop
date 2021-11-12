@@ -13,13 +13,15 @@ export default (state = initialState, action) => {
       const addedProduct = action.product;
       const price = addedProduct.price;
       const title = addedProduct.title;
+      const prodId = addedProduct.id;
 
       if(state.items[addedProduct.id]) { //Item already exists in the cart
         const updatedCartItem = new CartItem(
           title,
           price, 
           state.items[addedProduct.id].qty + 1,
-          price + state.items[addedProduct.id].qty
+          price + state.items[addedProduct.id].qty,
+          prodId
         );
         return {
           ...state,
@@ -27,7 +29,7 @@ export default (state = initialState, action) => {
           totalAmount: state.totalAmount + price
         }
       } else { // New Item in cart
-        const newItem = new CartItem(title, price, 1, price);
+        const newItem = new CartItem(title, price, 1, price, prodId);
         return {
           ...state,
           items: {...state.items, [addedProduct.id]: newItem},
