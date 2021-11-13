@@ -1,18 +1,20 @@
-import React from 'react'
+import React from 'react';
 import { 
   View, 
   FlatList, 
   StyleSheet,
+  Button,
   Text,
-} from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
-import * as cartActions from '../../store/actions/cart'
-import CartItem from '../../components/shop/CartItem'
-import defaultStyles from '../../constants/default-styles'
+} from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import * as cartActions from '../../store/actions/cart';
+import * as orderActions from '../../store/actions/orders';
+import CartItem from '../../components/shop/CartItem';
+import defaultStyles from '../../constants/default-styles';
+import Colors from '../../constants/Colors';
 
 const ProductsMainScreen = props => {
   const totalAmount = useSelector(state=> state.cart.totalAmount);
-  const dispatch = useDispatch();
   // convert the items object into array of objects
   const cartItems = useSelector(state => { 
     const cartItemArray = [];
@@ -27,15 +29,7 @@ const ProductsMainScreen = props => {
     }
     return cartItemArray.sort((a,b) => a.id > b.id ? 1 : -1);
   });
-
-  // Return fall back text if there are no items in the cart
-  if(!cartItems || cartItems.length === 0 || totalAmount === 0) {
-    return (
-      <View style={defaultStyles.screen}>
-        <Text>No Products found. Add products to your cart.</Text>
-      </View>
-    )
-  }
+  const dispatch = useDispatch();
 
   const renderProduct = itemData => {
     return <CartItem
@@ -56,8 +50,21 @@ const ProductsMainScreen = props => {
   }
 
   return (
-    <View>
-      <Text>Total Amount: {totalAmount.toFixed(2)}</Text>
+    <View style={defaultStyles.screen}>
+      <View style={styles.summary}>
+        <Text style={styles.summaryText}>
+          Total:{' '}
+          <Text style={styles.amount}>${totalAmount.toFixed(2)}</Text>
+        </Text>
+        <Button 
+          title="Order Now" 
+          color={Colors.secondary} 
+          onPress={() => {
+            dispatch(orderActions.addOrder(cartItems, totalAmount))
+          }} 
+          disabled={cartItems.length === 0}
+        />
+      </View>
       <FlatList data={cartItems} renderItem={renderProduct} />
     </View>
   );
@@ -68,7 +75,15 @@ ProductsMainScreen.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
-  
+  summary: {
+    
+  },
+  summaryText: {
+
+  },
+  amount: {
+    
+  }
 });
 
 export default ProductsMainScreen;

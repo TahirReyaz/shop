@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import { enableScreens } from 'react-native-screens'
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
-import { createStore, combineReducers } from 'redux'
-import productsReducer from './store/reducers/products'
-import cartReducer from './store/reducers/cart'
+import { createStore, combineReducers } from 'redux';
+import productsReducer from './store/reducers/products';
+import cartReducer from './store/reducers/cart';
+import ordersReducer from './store/reducers/orders';
 import { Provider } from 'react-redux';
-import Navigator from './navigation/navigator'
+import Navigator from './navigation/navigator';
 
 enableScreens();
 
 const rootReducer = combineReducers({
   products: productsReducer,
-  cart: cartReducer
+  cart: cartReducer,
+  orders: ordersReducer
 });
 const store = createStore(rootReducer);
 

@@ -39,7 +39,6 @@ export default (state = initialState, action) => {
     case REMOVE_FROM_CART: 
       const itemId = action.id;
       const selectedItem = state.items[itemId];
-      console.log(selectedItem);
       let updatedCartItems;
       if(selectedItem.qty <= 1) { // If qty is one then remove the item from the cart
         updatedCartItems = {...state.items};
