@@ -5,13 +5,14 @@ import {
   StyleSheet,
   Text,
 } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import * as cartActions from '../../store/actions/cart'
 import CartItem from '../../components/shop/CartItem'
 import defaultStyles from '../../constants/default-styles'
 
 const ProductsMainScreen = props => {
   const totalAmount = useSelector(state=> state.cart.totalAmount);
+  const dispatch = useDispatch();
   // convert the items object into array of objects
   const cartItems = useSelector(state => { 
     const cartItemArray = [];
@@ -24,7 +25,7 @@ const ProductsMainScreen = props => {
         sum: state.cart.items[key].sum
       })
     }
-    return cartItemArray;
+    return cartItemArray.sort((a,b) => a.id > b.id ? 1 : -1);
   });
 
   // Return fall back text if there are no items in the cart
@@ -49,7 +50,7 @@ const ProductsMainScreen = props => {
         })
       }}
       removeFromCartHandler={() => {
-        dispatch(cartActions.addToCart(itemData.item))
+        dispatch(cartActions.removeFromCart(itemData.item.id))
       }}
     />
   }

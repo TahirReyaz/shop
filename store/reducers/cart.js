@@ -1,5 +1,4 @@
-import PRODUCTS from "../../data/dummy-data";
-import { ADD_TO_CART } from "../actions/cart";
+import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/cart";
 import CartItem from "../../models/cart-item";
 
 const initialState = {
@@ -20,7 +19,7 @@ export default (state = initialState, action) => {
           title,
           price, 
           state.items[addedProduct.id].qty + 1,
-          price + state.items[addedProduct.id].qty,
+          state.items[addedProduct.id].price + price,
           prodId
         );
         return {
@@ -36,7 +35,31 @@ export default (state = initialState, action) => {
           totalAmount: state.totalAmount + price
         }
       }
-    // case SET_FILTERS:
+    break;
+    case REMOVE_FROM_CART: 
+      const itemId = action.id;
+      const selectedItem = state.items[itemId];
+      console.log(selectedItem);
+      let updatedCartItems;
+      if(selectedItem.qty <= 1) { // If qty is one then remove the item from the cart
+        updatedCartItems = {...state.items};
+        delete updatedCartItems[itemId];
+      } else { // Else decrease the quantity and price
+        const updatedCartItem = new CartItem(
+          selectedItem.title,
+          selectedItem.price,
+          selectedItem.qty - 1,
+          selectedItem.sum - selectedItem.price,
+          itemId
+        );
+        updatedCartItems = {...state.items, [itemId]: updatedCartItem}
+      }
+      return {
+        ...state,
+        items: updatedCartItems,
+        totalAmount: state.totalAmount - selectedItem.price
+      }
+  // case SET_FILTERS:
     //   const appliedFilters = action.filters;
     //   const updatedFilteredAnimes = state.allAnimes.filter(anime => {
     //     if(!appliedFilters.tv && anime.type === 'TV') {

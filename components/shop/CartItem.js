@@ -1,7 +1,6 @@
 import React from 'react'
 import { 
   View, 
-  ImageBackground, 
   Text, 
   StyleSheet, 
   Button
@@ -13,14 +12,6 @@ const CartItem = props => {
   return (
     <View style={styles.container}>
       <View style={styles.gridItem}>
-        {/* Image */}
-        {/* <View style={styles.header}>
-          <ImageBackground source={{uri: props.listData.imgUrl}} style={styles.bgImg}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.title} numberOfLines={1}>{props.listData.title}</Text>
-            </View>
-          </ImageBackground>
-        </View> */}
         <View style={styles.titleContainer}>
           <Text style={styles.title} numberOfLines={1}>
             {props.listData.title}
