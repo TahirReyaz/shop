@@ -3,46 +3,30 @@ import {
   View, 
   Text, 
   StyleSheet, 
-  Button
+  TouchableOpacity,
+  Platform
 } from 'react-native';
+import {Ionicons} from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 
 const CartItem = props => {
-
   return (
     <View style={styles.container}>
-      <View style={styles.gridItem}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title} numberOfLines={1}>
-            {props.listData.title}
-          </Text>
-        </View>
-        {/* Details */}
-        <View style={styles.details}>
-          <Text style={{color: '#888'}}>
-            ${props.listData.price.toFixed(2)}
-          </Text>
-          <Text>{props.listData.qty}</Text>
-          <Text>{props.listData.sum}</Text>
-        </View>
-        {/* Buttons */}
-        <View style={styles.buttonContainer}>
-          <View style={styles.button}>
-            <Button 
-              title="Details" 
-              color={Colors.primary} 
-              onPress={props.showDetails} 
-            />
-          </View>
-          {props.deletable && (<View style={styles.button}>
-            <Button 
-              title="Delete" 
-              color={Colors.primary} 
-              onPress={props.removeFromCartHandler} 
-            />
-          </View>
-          )}        
-        </View>
+      <View style={styles.itemData}>
+        <Text style={styles.qty}>{props.listData.qty} </Text>
+        <Text style={styles.mainText}>{props.listData.title}</Text>
+      </View>
+      <View style={styles.itemData}>
+        <Text style={styles.mainText}>
+          ${props.listData.sum.toFixed(2)}
+        </Text>
+        <TouchableOpacity onPress={props.removeFromCartHandler} style={styles.del}>
+          <Ionicons
+            name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
+            size={23}
+            color='red'
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -50,56 +34,28 @@ const CartItem = props => {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 5,
-    overflow: 'hidden',
-    shadowColor: 'black',
-    shadowOpacity: 0.26,
-    shadowOffset: {width: 0, height: 2},
-    shadowRadius: 10,
-    elevation: 3,
-    paddingBottom: 5
-  },
-  gridItem: {
-    flex: 1,
-    borderRadius: 5,
-    backgroundColor: '#f5f5f5',
-  },
-  titleContainer: {
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    paddingVertical: 5,
-    paddingHorizontal: 12,
-  },
-  title: {
-    color: 'white',
-    textAlign: 'center',
-    fontFamily: 'open-sans-bold',
-    fontSize: 18
-  },
-  bgImg: {
-    width: '100%',
-    height: '100%',
-    justifyContent: 'flex-end'
-  },
-  header: {
-    height: '60%'
-  },
-  details: {
-    height: '15%',
-    paddingHorizontal: 10,
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    fontFamily: 'open-sans',
+    padding: 10,
+    backgroundColor: 'white',
     flexDirection: 'row',
-    marginVertical: 15
+    justifyContent: 'space-between',
+    marginHorizontal: 20
   },
-  buttonContainer: {
+  itemData: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
     alignItems: 'center'
   },
-  // button: {
-  //   width: '30%'
-  // }
+  qty: {
+    fontFamily: 'open-sans',
+    fontSize: 16,
+    color: '#888'
+  },
+  mainText: {
+    fontFamily: 'open-sans-bold',
+    fontSize: 16
+  },
+  del: {
+    marginLeft: 20
+  }
 });
 
 export default CartItem;

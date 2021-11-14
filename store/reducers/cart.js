@@ -20,7 +20,7 @@ export default (state = initialState, action) => {
           title,
           price, 
           state.items[addedProduct.id].qty + 1,
-          state.items[addedProduct.id].price + price,
+          state.items[addedProduct.id].sum + price,
           prodId
         );
         return {
