@@ -34,6 +34,7 @@ const ProductsMainScreen = props => {
   const renderProduct = itemData => {
     return <CartItem
       listData={itemData.item}
+      deletable
       showDetails={() => {
         props.navigation.navigate({
           routeName: 'Details', 
@@ -50,7 +51,7 @@ const ProductsMainScreen = props => {
   }
 
   return (
-    <View style={defaultStyles.screen}>
+    <View>
       <View style={styles.summary}>
         <Text style={styles.summaryText}>
           Total:{' '}
@@ -76,7 +77,9 @@ ProductsMainScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   summary: {
-    
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 10
   },
   summaryText: {
 

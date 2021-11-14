@@ -12,7 +12,7 @@ export default (state = initialState, action) => {
         new Date().toString(),
         action.orderData.items,
         action.orderData.amount,
-        new Date().toString()
+        new Date()
       );
       return {
         orders: state.orders.concat(newOrder)

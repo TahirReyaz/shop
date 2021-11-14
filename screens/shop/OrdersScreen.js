@@ -9,10 +9,10 @@ import { useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderButton from '../../components/UI/CustomHeaderButton'
 import defaultStyles from '../../constants/default-styles';
+import OrderItem from '../../components/shop/OrderItem';
 
 const OrdersScreen = () => {
   const orders = useSelector(state => state.orders.orders);
-  console.log(orders);
 
   if(!orders || orders.length === 0) {
     return (
@@ -24,9 +24,11 @@ const OrdersScreen = () => {
 
   const renderOrder = itemData => {
     return (
-      <View>
-        <Text>{itemData.item.totalAmount}</Text>
-      </View>
+      <OrderItem
+        amount={itemData.item.totalAmount}
+        date={itemData.item.readableDate}
+        items={itemData.item.items}
+      />
     )
   }
 

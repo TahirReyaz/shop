@@ -23,6 +23,7 @@ const CartItem = props => {
             ${props.listData.price.toFixed(2)}
           </Text>
           <Text>{props.listData.qty}</Text>
+          <Text>{props.listData.sum}</Text>
         </View>
         {/* Buttons */}
         <View style={styles.buttonContainer}>
@@ -33,13 +34,14 @@ const CartItem = props => {
               onPress={props.showDetails} 
             />
           </View>
-          <View style={styles.button}>
+          {props.deletable && (<View style={styles.button}>
             <Button 
               title="Delete" 
               color={Colors.primary} 
               onPress={props.removeFromCartHandler} 
             />
           </View>
+          )}        
         </View>
       </View>
     </View>
@@ -48,8 +50,6 @@ const CartItem = props => {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 5,
-    height: 200,
     borderRadius: 5,
     overflow: 'hidden',
     shadowColor: 'black',
@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 10,
     elevation: 3,
+    paddingBottom: 5
   },
   gridItem: {
     flex: 1,
@@ -86,16 +87,19 @@ const styles = StyleSheet.create({
     height: '15%',
     paddingHorizontal: 10,
     alignItems: 'center',
-    fontFamily: 'open-sans'
+    justifyContent: 'space-evenly',
+    fontFamily: 'open-sans',
+    flexDirection: 'row',
+    marginVertical: 15
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center'
   },
-  button: {
-    width: '30%'
-  }
+  // button: {
+  //   width: '30%'
+  // }
 });
 
 export default CartItem;
