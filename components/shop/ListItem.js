@@ -6,12 +6,12 @@ import {
   StyleSheet, 
   Button
 } from 'react-native';
-import Colors from '../../constants/Colors';
+import Card from '../UI/Card';
 
 const ListItem = props => {
 
   return (
-    <View style={styles.container}>
+    <Card style={styles.container}>
       <View style={styles.gridItem}>
         {/* Image */}
         <View style={styles.header}>
@@ -30,7 +30,7 @@ const ListItem = props => {
           {props.children}
         </View>
       </View>
-    </View>
+    </Card>
   );
 }
 
@@ -40,11 +40,6 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 5,
     overflow: 'hidden',
-    shadowColor: 'black',
-    shadowOpacity: 0.26,
-    shadowOffset: {width: 0, height: 2},
-    shadowRadius: 10,
-    elevation: 3,
   },
   gridItem: {
     flex: 1,

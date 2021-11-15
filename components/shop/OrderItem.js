@@ -7,12 +7,13 @@ import {
 } from 'react-native';
 import CartItem from './CartItem';
 import Colors from '../../constants/Colors';
+import Card from '../UI/Card';
 
 const OrderItem = props => {
   const [showDetails, setShowDetails] = useState(false);
 
   return (
-    <View style={styles.container}>
+    <Card style={styles.container}>
       <View style={styles.summary}>
         <Text style={styles.amount}>${props.amount.toFixed(2)}</Text>
         <Text style={styles.date}>{props.date}</Text>
@@ -30,7 +31,7 @@ const OrderItem = props => {
         ))}
       </View>
       }
-    </View>
+    </Card>
   );
 }
 
@@ -38,14 +39,7 @@ const styles = StyleSheet.create({
   container: {
     margin: 20,
     padding: 10,
-    borderRadius: 5,
     overflow: 'hidden',
-    shadowColor: 'black',
-    shadowOpacity: 0.26,
-    shadowOffset: {width: 0, height: 2},
-    shadowRadius: 10,
-    elevation: 3,
-    backgroundColor: 'white',
     alignItems: 'center'
   },
   summary: {

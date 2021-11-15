@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Text,
   Platform,
-  Button
+  Button,
+  Alert
 } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as productActions from '../../store/actions/products'
@@ -27,6 +28,23 @@ const UserProductsScreen = props => {
     )
   }
 
+  const deleteHandler = id => {
+    Alert.alert(
+      'Are you sure?', 
+      'Do you really want to delete this item?',
+      [
+        {text: 'No', style: 'default'},
+        {
+          text: 'Yes',
+          style: 'destructive',
+          onPress: () => {
+            dispatch(productActions.delProduct(id))
+          }
+        }
+      ]
+    );
+  }
+
   const renderProduct = itemData => {
     return <ListItem listData={itemData.item} >
       <View>
@@ -42,9 +60,7 @@ const UserProductsScreen = props => {
         <Button 
           title="Delete" 
           color={Colors.primary} 
-          onPress={() => {
-            dispatch(productActions.delProduct(itemData.item.id))
-          }} 
+          onPress={deleteHandler.bind(this, itemData.item.id)}
         />
       </View>
     </ListItem>
