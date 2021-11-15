@@ -4,14 +4,16 @@ import {
   FlatList, 
   StyleSheet,
   Text,
-  Platform
+  Platform,
+  Button
 } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import * as cartActions from '../../store/actions/cart'
+import * as productActions from '../../store/actions/products'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderButton from '../../components/UI/CustomHeaderButton'
 import ListItem from '../../components/shop/ListItem'
 import defaultStyles from '../../constants/default-styles'
+import Colors from '../../constants/Colors';
 
 const UserProductsScreen = props => {
   const availableProducts = useSelector(state => state.products.userProducts);
@@ -26,21 +28,24 @@ const UserProductsScreen = props => {
   }
 
   const renderProduct = itemData => {
-    return <ListItem
-      listData={itemData.item}
-      showDetails={() => {
-        props.navigation.navigate({
-          routeName: 'Details', 
-          params: {
-            prodId: itemData.item.id,
-            title: itemData.item.title,
-          }
-        })
-      }}
-      addToCartHandler={() => {
-        dispatch(cartActions.addToCart(itemData.item))
-      }}
-    />
+    return <ListItem listData={itemData.item} >
+      <View>
+        <Button 
+          title="Edit" 
+          color={Colors.primary} 
+          // onPress={() => onSelectHandler(itemData.item.title, itemData.item.id)} 
+        />
+      </View>
+      <View>
+        <Button 
+          title="Delete" 
+          color={Colors.primary} 
+          onPress={() => {
+            dispatch(productActions.delProduct(itemData.item.id))
+          }} 
+        />
+      </View>
+    </ListItem>
   }
 
   return (

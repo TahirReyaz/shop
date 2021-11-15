@@ -35,7 +35,7 @@ const ProductsStackNavigator = createStackNavigator({
   }
 });
 
-const UserStackNavigator = createStackNavigator({
+const AdminStackNavigator = createStackNavigator({
   ProductsScreen: UserProductsScreen,
   EditScreen: EditProductsScreen
 },
@@ -91,10 +91,10 @@ const DrawerNavigator = createDrawerNavigator({
       drawerLabel: 'Orders'
     }
   },
-  User: {
-    screen: UserStackNavigator,
+  Admin: {
+    screen: AdminStackNavigator,
     navigationOptions: {
-      drawerLabel: 'User'
+      drawerLabel: 'Admin'
     }
   }
 },

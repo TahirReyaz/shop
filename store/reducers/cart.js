@@ -1,5 +1,6 @@
 import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/cart";
 import { ADD_ORDER } from "../actions/orders";
+import { DEL_PRODUCT } from "../actions/products";
 import CartItem from "../../models/cart-item";
 
 const initialState = {
@@ -61,33 +62,18 @@ export default (state = initialState, action) => {
       }
     case ADD_ORDER: 
       return initialState;
-  // case SET_FILTERS:
-    //   const appliedFilters = action.filters;
-    //   const updatedFilteredAnimes = state.allAnimes.filter(anime => {
-    //     if(!appliedFilters.tv && anime.type === 'TV') {
-    //       return false;
-    //     } 
-    //     if(!appliedFilters.movie && anime.type === 'Movie') {
-    //       return false;
-    //     }
-    //     if(!appliedFilters.ova && anime.type === 'OVA') {
-    //       return false;
-    //     }
-    //     if(!appliedFilters.ona && anime.type === 'ONA') {
-    //       return false;
-    //     }
-    //     if(!appliedFilters.special && anime.type === 'Special') {
-    //       return false;
-    //     }
-    //     if(!appliedFilters.music && anime.type === 'Music') {
-    //       return false;
-    //     }
-    //     if(!appliedFilters.unknown && anime.type === 'Unknown') {
-    //       return false;
-    //     }
-    //     return true;
-    //   })
-    //   return {...state, filteredAnimes: updatedFilteredAnimes}
+    case DEL_PRODUCT:
+      if(!state.items[action.prodId]) {
+        return state;
+      }
+      const updatedItems = {...state.items};
+      const itemTotal = updatedItems[action.prodId].sum;
+      delete updatedItems[action.prodId];
+      return {
+        ...state,
+        items: updatedItems,
+        totalAmount: state.totalAmount - itemTotal
+      }
     default: 
       return state;
   }

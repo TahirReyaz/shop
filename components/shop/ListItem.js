@@ -27,12 +27,7 @@ const ListItem = props => {
         </View>
         {/* Buttons */}
         <View style={styles.buttonContainer}>
-          <View style={styles.button}>
-            <Button title="Details" color={Colors.primary} onPress={props.showDetails} />
-          </View>
-          <View style={styles.button}>
-            <Button title="Add To Cart" color={Colors.primary} onPress={props.addToCartHandler} />
-          </View>
+          {props.children}
         </View>
       </View>
     </View>
@@ -86,9 +81,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center'
   },
-  button: {
-    width: '30%'
-  }
 });
 
 export default ListItem;
