@@ -33,7 +33,9 @@ const UserProductsScreen = props => {
         <Button 
           title="Edit" 
           color={Colors.primary} 
-          // onPress={() => onSelectHandler(itemData.item.title, itemData.item.id)} 
+          onPress={() => {
+            props.navigation.navigate('EditScreen', {prodId: itemData.item.id})
+          }} 
         />
       </View>
       <View>
@@ -72,11 +74,9 @@ UserProductsScreen.navigationOptions = navData => {
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item 
-          title='Cart' 
-          iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'} 
-          onPress={() => navData.navigation.navigate({
-            routeName: 'Cart'
-          })}
+          title='Create' 
+          iconName={Platform.OS === 'android' ? 'md-create' : 'ios-create'} 
+          onPress={() => navData.navigation.navigate('EditScreen')}
         />
       </HeaderButtons>
     )
