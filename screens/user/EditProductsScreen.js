@@ -1,17 +1,20 @@
-import React, { useCallback, useEffect, useReducer } from 'react';
+import React, { useState, useCallback, useEffect, useReducer } from 'react';
 import {
   View,
   StyleSheet,
   ScrollView,
   Platform,
   Alert,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ActivityIndicator
 } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector, useDispatch } from 'react-redux';
 import * as productActions from '../../store/actions/products';
 import HeaderButton from '../../components/UI/CustomHeaderButton';
 import Input from '../../components/UI/Input';
+import defaultStyles from '../../constants/default-styles';
+import Colors from '../../constants/Colors';
 
 const FORM_UPDATE = 'UPDATE';
 
@@ -39,6 +42,8 @@ const formReducer = (state, action) => {
 }
 
 const EditProductsScreen = props => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
   const prodId = props.navigation.getParam('prodId');
   const product = useSelector(state => 
     state.products.userProducts.find(prod => prod.id === prodId)
@@ -62,6 +67,12 @@ const EditProductsScreen = props => {
     formIsValid: product ? true : false
   });
 
+  useEffect(() => {
+    if(error) {
+      Alert.alert('An error occurred',error,[{text: 'Ok'}]);
+    }
+  }, [error]);
+
   const inputChangeHandler = useCallback((inputIdentifier, value, validity) => {
     dispatchFormState({
       type: FORM_UPDATE,
@@ -72,7 +83,7 @@ const EditProductsScreen = props => {
   }, [dispatchFormState]);
 
 
-  const submitHandler = useCallback(() => {
+  const submitHandler = useCallback( async () => {
     if(!formState.formIsValid) {
       Alert.alert(
         'Wrong Input',
@@ -81,26 +92,43 @@ const EditProductsScreen = props => {
       )
       return;
     }
-    if(product) {
-      dispatch(productActions.updateProduct(
-        formState.inputValues.title, 
-        formState.inputValues.imgUrl, 
-        formState.inputValues.desc, 
-        prodId
-      ));
-    } else {
-      dispatch(productActions.createProduct(
-        formState.inputValues.title, 
-        formState.inputValues.imgUrl, 
-        +formState.inputValues.price, 
-        formState.inputValues.desc));
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      if(product) {
+        await dispatch(productActions.updateProduct(
+          formState.inputValues.title, 
+          formState.inputValues.imgUrl, 
+          formState.inputValues.desc, 
+          prodId
+        ));
+      } else {
+        await dispatch(productActions.createProduct(
+          formState.inputValues.title, 
+          formState.inputValues.imgUrl, 
+          +formState.inputValues.price, 
+          formState.inputValues.desc));
+      }
+      props.navigation.goBack();
+    } catch (err) {
+      setError(err.message);
     }
-    props.navigation.goBack();
+    setIsLoading(false);
   }, [dispatch, prodId, formState]);
   
   useEffect(() => {
     props.navigation.setParams({ submit: submitHandler });
   }, [ submitHandler ]);
+
+  if(isLoading) {
+    return (
+      <View style={defaultStyles.screen}>
+        <ActivityIndicator size='large' color={Colors.primary} />
+      </View>
+    )
+  }
   
   return (
     <KeyboardAvoidingView 
