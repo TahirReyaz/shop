@@ -1,23 +1,44 @@
-import React from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { 
   View, 
   FlatList, 
   StyleSheet,
-  Text,
   Platform,
-  Button
+  Button,
+  ActivityIndicator,
+  Text
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import * as cartActions from '../../store/actions/cart';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+
+import * as cartActions from '../../store/actions/cart';
+import * as productActions from '../../store/actions/products';
 import HeaderButton from '../../components/UI/CustomHeaderButton';
 import ListItem from '../../components/shop/ListItem';
 import defaultStyles from '../../constants/default-styles';
 import Colors from '../../constants/Colors';
 
 const ProductsMainScreen = props => {
+  console.log('Rerendering screen');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
   const availableProducts = useSelector(state => state.products.availableProducts);
   const dispatch = useDispatch();
+
+  const loadProducts = useCallback( async () => {
+    setError(null);
+    setIsLoading(true);
+    try {
+      await dispatch(productActions.fetchProducts());
+    } catch (err) {
+      setError(err.message)
+    }
+    setIsLoading(false);
+  }, [dispatch, setError, setIsLoading]);
+
+  useEffect(() => {
+    loadProducts();
+  }, [dispatch, loadProducts]);
 
   const onSelectHandler = (title, id) => {
     props.navigation.navigate({
@@ -29,10 +50,31 @@ const ProductsMainScreen = props => {
     })
   }
 
-  if(!availableProducts || availableProducts.length === 0) {
+  if(error) {
     return (
       <View style={defaultStyles.screen}>
-        <Text>No Products found. Maybe check your filters</Text>
+        <Text>An error occured. Sad Emoji.</Text>
+        <Button 
+          title="Try Again" 
+          color={Colors.primary} 
+          onPress={loadProducts} 
+        />
+      </View>
+    )
+  }
+
+  if(isLoading) {
+    return (
+      <View style={defaultStyles.screen}>
+        <ActivityIndicator size='large' color={Colors.primary} />
+      </View>
+    )
+  }
+
+  if(!isLoading && availableProducts.length === 0) {
+    return (
+      <View style={defaultStyles.screen}>
+        <Text>No products found. Start adding some.</Text>
       </View>
     )
   }
@@ -92,7 +134,7 @@ ProductsMainScreen.navigationOptions = navData => {
 };
 
 const styles = StyleSheet.create({
-  
+
 });
 
 export default ProductsMainScreen;
