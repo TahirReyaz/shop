@@ -20,20 +20,21 @@ import Colors from '../../constants/Colors';
 
 const ProductsMainScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState();
   const availableProducts = useSelector(state => state.products.availableProducts);
   const dispatch = useDispatch();
 
   const loadProducts = useCallback( async () => {
+    setIsRefreshing(true);
     setError(null);
-    setIsLoading(true);
     try {
       await dispatch(productActions.fetchProducts());
     } catch (err) {
       setError(err.message)
     }
-    setIsLoading(false);
-  }, [dispatch, setError, setIsLoading]);
+    setIsRefreshing(false);
+  }, [dispatch, setError]);
 
   useEffect(() => {
     const willFocusSub = props.navigation.addListener(
@@ -46,8 +47,11 @@ const ProductsMainScreen = props => {
   }, [loadProducts]);
 
   useEffect(() => {
-    loadProducts();
-  }, [dispatch, loadProducts]);
+    setIsLoading(true);
+    loadProducts().then(() => {
+      setIsLoading(false);
+    });
+  }, [dispatch, loadProducts, setIsLoading]);
 
   const onSelectHandler = (title, id) => {
     props.navigation.navigate({
@@ -109,7 +113,12 @@ const ProductsMainScreen = props => {
 
   return (
     <View>
-      <FlatList data={availableProducts} renderItem={renderProduct} />
+      <FlatList 
+        data={availableProducts} 
+        renderItem={renderProduct} 
+        onRefresh={loadProducts}
+        refreshing={isRefreshing}
+      />
     </View>
   );
 }
