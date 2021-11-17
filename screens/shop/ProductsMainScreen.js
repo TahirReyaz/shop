@@ -19,7 +19,6 @@ import defaultStyles from '../../constants/default-styles';
 import Colors from '../../constants/Colors';
 
 const ProductsMainScreen = props => {
-  console.log('Rerendering screen');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
   const availableProducts = useSelector(state => state.products.availableProducts);
@@ -35,6 +34,16 @@ const ProductsMainScreen = props => {
     }
     setIsLoading(false);
   }, [dispatch, setError, setIsLoading]);
+
+  useEffect(() => {
+    const willFocusSub = props.navigation.addListener(
+      'willFocus',
+      loadProducts
+    );
+    return () => {
+      willFocusSub.remove();
+    }
+  }, [loadProducts]);
 
   useEffect(() => {
     loadProducts();

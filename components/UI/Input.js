@@ -30,7 +30,7 @@ const inputReducer = (state, action) => {
 const Input = props => {
 
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: props.initialValues ? props.initialValues : '',
+    value: props.initialValue ? props.initialValue : '',
     isValid: props.initiallyValid,
     edited: false
   });
