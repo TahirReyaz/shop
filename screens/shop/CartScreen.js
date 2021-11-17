@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   View, 
   FlatList, 
   StyleSheet,
   Button,
   Text,
+  ActivityIndicator
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import * as cartActions from '../../store/actions/cart';
@@ -13,7 +14,10 @@ import CartItem from '../../components/shop/CartItem';
 import Colors from '../../constants/Colors';
 import Card from '../../components/UI/Card';
 
-const ProductsMainScreen = props => {
+const CartScreen = props => {
+  const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState();
+
   const totalAmount = useSelector(state=> state.cart.totalAmount);
   // convert the items object into array of objects
   const cartItems = useSelector(state => { 
@@ -30,6 +34,13 @@ const ProductsMainScreen = props => {
     return cartItemArray.sort((a,b) => a.id > b.id ? 1 : -1);
   });
   const dispatch = useDispatch();
+
+  const sendOrderHandler = async () => {
+    setIsLoading(true);
+    // setError(null);
+    await dispatch(orderActions.addOrder(cartItems, totalAmount));
+    setIsLoading(false);
+  }
 
   const renderProduct = itemData => {
     return <CartItem
@@ -56,21 +67,23 @@ const ProductsMainScreen = props => {
         <Text style={styles.summaryText}>
           Total: <Text style={styles.amount}>${totalAmount.toFixed(2)}</Text>
         </Text>
-        <Button 
-          title="Order Now" 
-          color={Colors.secondary} 
-          onPress={() => {
-            dispatch(orderActions.addOrder(cartItems, totalAmount))
-          }} 
-          disabled={cartItems.length === 0}
-        />
+        {isLoading ? (
+          <ActivityIndicator size='large' color={Colors.primary} />
+        ) : (
+          <Button 
+            title="Order Now" 
+            color={Colors.secondary} 
+            onPress={sendOrderHandler} 
+            disabled={cartItems.length === 0}
+          />
+        )}
       </Card>
       <FlatList data={cartItems} renderItem={renderProduct} />
     </View>
   );
 }
 
-ProductsMainScreen.navigationOptions = {
+CartScreen.navigationOptions = {
   headerTitle: 'Cart',
 };
 
@@ -94,4 +107,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ProductsMainScreen;
+export default CartScreen;
