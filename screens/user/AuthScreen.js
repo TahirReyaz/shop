@@ -47,7 +47,7 @@ const formReducer = (state, action) => {
   return state;
 }
 
-const AuthScreen = () => {
+const AuthScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
   const [isSignup, setIsSignup] = useState(false);
@@ -65,6 +65,7 @@ const AuthScreen = () => {
     formIsValid: false
   });
 
+  // If code or server error occurs while submitting
   useEffect(() => {
     if(error) {
       Alert.alert('An error occurred',error,[{text: 'Ok'}]);
@@ -104,11 +105,12 @@ const AuthScreen = () => {
           formState.inputValues.email, 
           formState.inputValues.password, 
         ));
+        props.navigation.navigate('Shop');
       }
     } catch (err) {
       setError(err.message);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, [dispatch, formState]);
 
   return (

@@ -4,10 +4,12 @@ export const ADD_ORDER = 'ADD_ORDER';
 export const SET_ORDERS = 'SET_ORDERS';
 
 export const fetchOrders = () => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const userId = getState().auth.userId;
     try {
       const response = await fetch(
-        'https://shop-c9c03-default-rtdb.firebaseio.com/orders/u1.json'
+        `https://shop-c9c03-default-rtdb.firebaseio.com/orders/${userId}.json`
       );
 
       if(!response.ok) {
@@ -33,20 +35,24 @@ export const fetchOrders = () => {
 };
 
 export const addOrder = (cartItems, totAmt) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const userId = getState().auth.userId;
     const date = new Date();
     const response = await fetch(
-      'https://shop-c9c03-default-rtdb.firebaseio.com/orders/u1.json', {
-      method: 'POST',
-      headers: {
-        'Content-Type' : 'application/json'
-      },
-      body: JSON.stringify({
-        items: cartItems,
-        amount: totAmt,
-        date: date.toISOString()
-      })
-    });
+      `https://shop-c9c03-default-rtdb.firebaseio.com/orders/${userId}.json?auth=${token}`, 
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({
+          items: cartItems,
+          amount: totAmt,
+          date: date.toISOString()
+        })
+      }
+    );
 
     const resData = await response.json();
     dispatch({ 
