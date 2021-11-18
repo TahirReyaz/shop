@@ -9,6 +9,7 @@ import CartScreen from '../screens/shop/CartScreen'
 import OrdersScreen from '../screens/shop/OrdersScreen';
 import UserProductsScreen from '../screens/user/UserProductsScreen';
 import EditProductsScreen from '../screens/user/EditProductsScreen';
+import StartupScreen from '../screens/StartupScreen';
 import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import AuthScreen from '../screens/user/AuthScreen';
@@ -121,6 +122,7 @@ const DrawerNavigator = createDrawerNavigator({
 });
 
 const MainNavigator = createSwitchNavigator({
+  StartUp: StartupScreen,
   Auth: AuthStackNavigator,
   Shop: DrawerNavigator
 })
