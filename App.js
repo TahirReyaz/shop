@@ -9,7 +9,7 @@ import cartReducer from './store/reducers/cart';
 import ordersReducer from './store/reducers/orders';
 import authReducer from './store/reducers/auth';
 import { Provider } from 'react-redux';
-import Navigator from './navigation/navigator';
+import NavigationContainer from './navigation/NavigationContainer';
 
 enableScreens();
 
@@ -43,7 +43,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <Navigator />
+      <NavigationContainer />
     </Provider>
   );
 }
