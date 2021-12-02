@@ -41,7 +41,7 @@ const DetailScreen = props => {
   );
 }
 
-DetailScreen.navigationOptions = navData => {
+export const screenOptions = navData => {
   const prodTitle = navData.navigation.getParam('title');
 
   return {

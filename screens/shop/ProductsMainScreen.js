@@ -37,12 +37,12 @@ const ProductsMainScreen = props => {
   }, [dispatch, setError]);
 
   useEffect(() => {
-    const willFocusSub = props.navigation.addListener(
-      'willFocus',
+    const unsubscribe = props.navigation.addListener(
+      'focus',
       loadProducts
     );
     return () => {
-      willFocusSub.remove();
+      unsubscribe();
     }
   }, [loadProducts]);
 
@@ -123,7 +123,7 @@ const ProductsMainScreen = props => {
   );
 }
 
-ProductsMainScreen.navigationOptions = navData => {
+export const screenOptions = navData => {
   return {
     headerTitle: 'All Products',
     headerLeft: () => (

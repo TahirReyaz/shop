@@ -105,7 +105,7 @@ const AuthScreen = props => {
           formState.inputValues.email, 
           formState.inputValues.password, 
         ));
-        props.navigation.navigate('Shop');
+        // props.navigation.navigate('Shop');
       }
     } catch (err) {
       setError(err.message);
@@ -171,7 +171,7 @@ const AuthScreen = props => {
   );
 };
 
-AuthScreen.navigationOptions = {
+export const screenOptions = {
   headerTitle: "Authenticate"
 }
 
