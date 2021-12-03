@@ -55,11 +55,11 @@ const ProductsMainScreen = props => {
 
   const onSelectHandler = (title, id) => {
     props.navigation.navigate({
-      routeName: 'Details', 
+      name: 'Details', 
       params: {
         prodId: id,
         title: title,
-      }
+      },
     })
   }
 
@@ -142,9 +142,7 @@ export const screenOptions = navData => {
         <Item 
           title='Cart' 
           iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'} 
-          onPress={() => navData.navigation.navigate({
-            routeName: 'Cart'
-          })}
+          onPress={() => navData.navigation.navigate('Cart')}
         />
       </HeaderButtons>
     )

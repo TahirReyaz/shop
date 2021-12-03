@@ -71,7 +71,7 @@ const OrdersNavigator = () => {
   return (
     <OrdersStackNavigator.Navigator screenOptions={defaultNavigationOptions}>
       <OrdersStackNavigator.Screen 
-        name="Orders" 
+        name="OrderStack" 
         component={OrdersScreen} 
         options={ordersScreenOptions}
       />
@@ -117,7 +117,8 @@ export const ShopNavigator = () => {
         );
       }}
       screenOptions={{
-        drawerActiveTintColor: Colors.secondary
+        drawerActiveTintColor: Colors.secondary,
+        headerShown: false
       }}
     >
       <DrawerNavigator.Screen 

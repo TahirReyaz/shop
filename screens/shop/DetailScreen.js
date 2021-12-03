@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Colors from '../../constants/Colors';
 
 const DetailScreen = props => {
-  const prodId = props.navigation.getParam('prodId');
+  const prodId = props.route.params.prodId; 
   const availableprods = useSelector(state => state.products.availableProducts)
   const prod = availableprods.find(prod => prod.id === prodId);
 
@@ -42,7 +42,7 @@ const DetailScreen = props => {
 }
 
 export const screenOptions = navData => {
-  const prodTitle = navData.navigation.getParam('title');
+  const prodTitle = navData.route.params.title;
 
   return {
     headerTitle: prodTitle,
