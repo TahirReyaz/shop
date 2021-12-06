@@ -33,6 +33,7 @@ export default (state = initialState, action) => {
       const newProduct = new Product(
         action.product.id,
         action.product.ownerId,
+        action.product.pushToken,
         action.product.title,
         action.product.imgUrl,
         action.product.desc,
@@ -50,6 +51,7 @@ export default (state = initialState, action) => {
       const updatedProduct = new Product(
         action.id,
         state.availableProducts[prodIndex].ownerId,
+        state.availableProducts[prodIndex].pushToken,
         action.product.title,
         action.product.imgUrl,
         action.product.desc,
