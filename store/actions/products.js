@@ -1,3 +1,5 @@
+import * as Notifications from 'expo-notifications';
+
 import Product from '../../models/products';
 
 export const CREATE_PRODUCT = 'CREATE_PRODUCT';
@@ -43,6 +45,24 @@ export const fetchProducts = () => {
 
 export const createProduct = (title, imgUrl, price, desc) => {
   return async (dispatch, getState) => {
+    let pushToken;
+    let status = await Notifications.getPermissionsAsync();
+    if(!status.granted) {
+      status = await Notifications.requestPermissionsAsync({
+        ios: {
+          allowAlert: true,
+          allowBadge: true,
+          allowSound: true,
+          allowAnnouncements: true,
+        },
+      });
+    }
+    if(!status.granted) {
+      pushToken = null;
+    } else {
+      pushToken = (await Notifications.getExpoPushTokenAsync()).data;
+    }
+
     const token = getState().auth.token;
     const userId = getState().auth.userId;
     const response = await fetch(
@@ -57,7 +77,8 @@ export const createProduct = (title, imgUrl, price, desc) => {
           imgUrl,
           price,
           desc,
-          ownerId: userId
+          ownerId: userId,
+          ownerPushToken: pushToken
         })
       }
     );
