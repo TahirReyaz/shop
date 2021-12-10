@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "shop",
+    "name": "Shop",
     "slug": "shop",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,7 +8,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#171717"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -17,14 +17,18 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.tahirreyaz.rn.shop",
+      "buildNumber": "1.0.1",
       "supportsTablet": true
     },
     "android": {
+      "package": "com.tahirreyaz.rn.shop",
+      "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#171717"
       },
-      "useNextNotificationsApi": true
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"

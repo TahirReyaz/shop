@@ -46,7 +46,7 @@ const EditProductsScreen = props => {
   const [error, setError] = useState();
 
   const prodId = props.route.params 
-    ? navData.route.params.prodId
+    ? props.route.params.prodId
     : null;
   const product = useSelector(state => 
     state.products.userProducts.find(prod => prod.id === prodId)
